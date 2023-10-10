@@ -3,15 +3,23 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from fastapi import Depends
 from typing import Annotated
-import config
-import os
+from config import settings
+# For SQLite DB
 
-current_directory = os.path.dirname(os.path.abspath(__file__))
-database_path = os.path.join(current_directory, config.DB_NAME)
+# import config
+# import os
 
-SQLALCHEMY_DATABASE_URL = f'sqlite:///{database_path}'
+# current_directory = os.path.dirname(os.path.abspath(__file__))
+# database_path = os.path.join(current_directory, config.DB_NAME)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+# SQLALCHEMY_DATABASE_URL = f'sqlite:///{database_path}'
+
+engine = create_engine(
+    url=settings.DATABASE_URL_psycopg,
+    echo=True,
+    # pool_size=5,
+    # max_overflow=10
+)
 
 Session = sessionmaker(bind=engine)
 

@@ -12,6 +12,7 @@ from database import engine
 from startup import process_and_save_csv, save_dataframe_as_csv
 from user import models as user_models
 from app import models as app_models
+from config import settings as stt
 
 
 # Function to delete all files in the folder on application exit
@@ -78,4 +79,4 @@ app.include_router(advanced_booking.router)
 app.include_router(booking.router)
 
 if __name__ == "__main__":
-    uvicorn.run('main:app', host=config.HOST, port=int(config.PORT), reload=True)
+    uvicorn.run('main:app', host=stt.HOST, port=int(stt.PORT), reload=True)

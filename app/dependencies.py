@@ -1,5 +1,6 @@
 from datetime import datetime
-from database import SQLALCHEMY_DATABASE_URL
+from config import settings
+# from database import SQLALCHEMY_DATABASE_URL
 import pandas as pd
 
 
@@ -17,7 +18,7 @@ def stats_calculation() -> dict:
 
     Returns a dictionary with calculated statistics.
     """
-    new_df = pd.read_sql_table('bookings', SQLALCHEMY_DATABASE_URL)
+    new_df = pd.read_sql_table('bookings', settings.DATABASE_URL_psycopg)
     number_of_bookings = len(new_df)
     average_length_of_stay = new_df['length_of_stay'].mean()
     average_daily_rate = new_df['daily_rate'].mean()
@@ -75,7 +76,7 @@ def filtering_by_nationality(country: str) -> list:
             - 'daily_rate': Daily rate.
 
     """
-    new_df = pd.read_sql_table('bookings', SQLALCHEMY_DATABASE_URL)
+    new_df = pd.read_sql_table('bookings', settings.DATABASE_URL_psycopg)
     df = pd.read_csv('app/data/hotel_booking_data.csv')
     filtered_df = df[df['country'] == country]
     selected_indices = filtered_df.index
@@ -121,7 +122,7 @@ def avg_length_of_stay() -> list:
             - 'hotel' (str): The type of hotel.
             - 'length_of_stay' (float): The average length of stay for the specified year and hotel.
     """
-    new_df = pd.read_sql_table('bookings', SQLALCHEMY_DATABASE_URL)
+    new_df = pd.read_sql_table('bookings', settings.DATABASE_URL_psycopg)
     df = pd.read_csv('app/data/hotel_booking_data.csv')
     copied_df = df[['stays_in_weekend_nights', 'stays_in_week_nights', 'arrival_date_year', 'arrival_date_month',
                     'arrival_date_day_of_month', 'hotel']].copy()
@@ -153,7 +154,7 @@ def total_revenue() -> list:
         month and hotel.
 
     """
-    new_df = pd.read_sql_table('bookings', SQLALCHEMY_DATABASE_URL)
+    new_df = pd.read_sql_table('bookings', settings.DATABASE_URL_psycopg)
     df = pd.read_csv('app/data/hotel_booking_data.csv')
     copied_df = df[
         ['adr', 'stays_in_weekend_nights', 'stays_in_week_nights', 'is_canceled', 'arrival_date_month', 'hotel']].copy()
@@ -204,7 +205,7 @@ def total_guests_by_year() -> list:
             - 'booking_date_year': The booking year.
             - 'total_guests': The total number of guests for that year.
     """
-    new_df = pd.read_sql_table('bookings', SQLALCHEMY_DATABASE_URL)
+    new_df = pd.read_sql_table('bookings', settings.DATABASE_URL_psycopg)
     df = pd.read_csv('app/data/hotel_booking_data.csv')
     copied_df = df[['adults', 'children', 'babies']].copy()
     copied_df['booking_date_year'] = pd.to_datetime(new_df['booking_date']).dt.year
