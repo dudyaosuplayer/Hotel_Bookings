@@ -49,5 +49,5 @@ spec:
       implementation: MLFLOW_SERVER
       modelUri: s3://app-alpav/0/f54a2adf46d74960b18ca488e8324992/artifacts/model
       name: uncor2
-    name: FKDSFLDSFsdfsfafa
+    name: ;¹¹";
     replicas: 1
